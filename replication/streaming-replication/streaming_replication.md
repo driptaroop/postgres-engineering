@@ -59,3 +59,6 @@ pg_basebackup normally asks for an username and password, but we can set the `PG
 ```bash
 docker compose up postgres-primary postgres-replica-1 postgres-replica-2
 ```
+
+> source:
+> 1. https://medium.com/@eremeykin/how-to-setup-single-primary-postgresql-replication-with-docker-compose-98c48f233bbf

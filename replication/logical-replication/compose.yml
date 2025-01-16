@@ -1,0 +1,47 @@
+services:
+  x-postgres-common:
+    &postgres-common
+    image: 'postgres:17'
+    healthcheck:
+      test: "pg_isready -U postgres -d postgres"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 1G
+        reservations:
+          cpus: 1
+          memory: 1G
+
+  postgres-publisher:
+    <<: *postgres-common
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    container_name: "postgres_publisher"
+    ports:
+      - "5432:5432"
+    command: |
+      postgres 
+      -c wal_level=logical 
+      -c hot_standby=on 
+      -c max_wal_senders=10 
+      -c max_replication_slots=10 
+      -c hot_standby_feedback=on
+    
+
+  postgres-replica:
+    <<: *postgres-common
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    container_name: "postgres_replica"
+    depends_on:
+      - postgres-publisher
