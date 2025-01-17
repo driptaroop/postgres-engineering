@@ -1,0 +1,38 @@
+services:
+  db:
+    image: 'postgres:17'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    container_name: 'db'
+    volumes:
+      - ./init_0.sql:/docker-entrypoint-initdb.d/init_0.sql
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 1G
+        reservations:
+          cpus: 1
+          memory: 1G
+  pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'postgres@admin.com'
+      PGADMIN_DEFAULT_PASSWORD: 'password'
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    configs:
+      - source: pgpass
+        target: /pgpass
+
+configs:
+  pgpass:
+    content: "db:5432:postgres:postgres:password"

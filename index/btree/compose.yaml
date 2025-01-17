@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: 'postgres:17'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    container_name: 'index-db'
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 1G
+        reservations:
+          cpus: 1
+          memory: 1G
