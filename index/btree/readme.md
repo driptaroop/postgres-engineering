@@ -1,4 +1,4 @@
-# How to optimize a select query with Btree Index
+# Postgres B-tree Index
 ## PostgreSQL: To B-tree or not to B-tree!
 
 ## Introduction
