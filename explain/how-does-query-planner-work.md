@@ -460,16 +460,34 @@ The cost for index scan here is 8.36.
 
 For the seq scan the cost is similar to "Common_Value_1" which is 950.38. So, the query planner will choose the index scan strategy for the query because it has the lowest cost.
 
-> It may be interesting to note why the index scan cost is lower than the seq scan cost for the rarer values (high selectivity). 
-> This is because the index scan only has to read the index pages and the heap pages for the matching rows. 
-> The seq scan has to read all the pages of the table. So, the index scan is faster than the seq scan for the rarer values.
+## Why is the index scan cost lower than the seq scan cost for the rarer values?
 
-> On the other hand, the seq scan is faster than the index scan for the common values (low selectivity) because the index scan 
-> has to read the index pages and then fetch the corresponding heap pages for the matching rows. 
-> These pages are read in random disk reads. The seq scan reads the pages in sequential disk reads. The sequential disk reads are 
-> much faster than the random disk reads. So, with large enough datasets, the seq scan is faster than the index scan for the common values.
+It may be interesting to note why the index scan cost is lower than the seq scan cost for the rarer values (high selectivity). 
+This is because the index scan only has to read the index pages and the heap pages for the matching rows. The seq scan has to read 
+all the pages of the table. So, the index scan is faster than the seq scan for the rarer values.
+An intuitive way to understand this would be to think an index like a tree. It's fast to find one item traversing through a tree, which is the "index scan". 
+But finding a lot of items involves running through the tree over and over and over. It is slow to index scan all the records in a tree.
+
+On the other hand, the seq scan is faster than the index scan for the common values (low selectivity) because the index scan 
+has to read the index pages and then fetch the corresponding heap pages for the matching rows. 
+These pages are read in random disk reads. The seq scan reads the pages in sequential disk reads. The sequential disk reads are 
+much faster than the random disk reads. So, with large enough datasets, the seq scan is faster than the index scan for the common values.
+An intuitive way to understand this would be to think rows are books in a very large bookshelf store sequentially. It is time-consuming to find a small subset of books from that row of a large number of books.
+But if you have to pull down almost all the books from the row, it is faster to just go through them and pull down as necessary.
+
+This awesome picture from this blog post really explains it well:
+![Index Scan vs Seq Scan](assets/seq_scan_vs_index_scan.avif)
 
 ### Conclusion
 In this post we have seen how the query planner uses the statistics to calculate the costs of the query plans and chooses the one with the lowest cost. 
 We have seen how the costs are calculated for the seq scan. We have also seen how we can force the query planner to use a particular strategy (like index scan or bitmap index scan) by enabling or disabling the strategies.
 In the next post, we will see how the statistics are gathered and how can we influence them.
+
+## References
+- https://momjian.us/main/writings/pgsql/optimizer.pdf
+- https://www.crunchydata.com/blog/indexes-selectivity-and-statistics
+- https://www.postgresql.org/docs/current/indexes-selectivity.html
+- https://www.postgresql.org/docs/current/index-cost-estimation.html
+- https://www.postgresql.org/docs/current/using-explain.html
+- https://github.com/postgres/postgres/blob/master/src/backend/optimizer/path/costsize.c
+- https://github.com/postgres/postgres/blob/master/src/backend/utils/adt/selfuncs.c
