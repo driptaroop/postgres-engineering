@@ -478,7 +478,7 @@ But if you have to pull down almost all the books from the row, it is faster to 
 This awesome picture from this blog post really explains it well:
 ![Index Scan vs Seq Scan](assets/seq_scan_vs_index_scan.avif)
 
-### Conclusion
+## Conclusion
 In this post we have seen how the query planner uses the statistics to calculate the costs of the query plans and chooses the one with the lowest cost. 
 We have seen how the costs are calculated for the seq scan. We have also seen how we can force the query planner to use a particular strategy (like index scan or bitmap index scan) by enabling or disabling the strategies.
 In the next post, we will see how the statistics are gathered and how can we influence them.
