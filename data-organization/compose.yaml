@@ -1,0 +1,20 @@
+services:
+  data-org:
+    image: 'postgres:17'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    container_name: 'data-org'
+    volumes:
+      - ./data:/var/lib/postgresql/data:rw
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 1G
+        reservations:
+          cpus: 1
+          memory: 1G
