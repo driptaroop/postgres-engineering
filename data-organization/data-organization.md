@@ -1,4 +1,4 @@
-# Postgres Internals: Data Organization
+# Postgres Internals: Databases and templates
 ## you either have an organized datasource or absolute chaos... sometimes both
 
 # Introduction
