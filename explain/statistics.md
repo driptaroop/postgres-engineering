@@ -9,6 +9,9 @@ decisions about how to execute queries. In this article, we will explore the sta
 
 We already discussed how statistics work in [the last post](https://blog.dripto.xyz/how-does-postgresql-query-planner-work). In this post, we will dive a little deeper to find out how it works in a bit more detailed way and how can we influence it.
 
+> This article is actually an extension of [the last article](https://blog.dripto.xyz/how-does-postgresql-query-planner-work) because they are so closely connected. 
+Despite being an extension, this article got way too big to be a part of the last one. So I decided to make it a separate post.
+
 # What are postgres statistics?
 Postgres collects statistics about the data in the database to help the query planner make decisions about how to execute queries. 
 These statistics include information about the distribution of values in columns, the number of distinct values in columns, and the 
