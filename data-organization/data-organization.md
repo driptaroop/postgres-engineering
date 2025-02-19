@@ -181,3 +181,8 @@ For these reasons, `template0` is considered a "safe" template database. So, if 
 In this article, we've discussed the high-level aspects of data organization in PostgreSQL, focusing on the `database` abstraction. 
 We've seen what postgres databases are. We've also seen how we can create custom template databases and use them to create new databases. 
 We've also seen the importance of `template0` as a fallback template database.
+
+## References
+- [Postgres Internals Book](https://postgrespro.com/community/books/internals)
+- https://supabase.com/blog/postgresql-templates
+- https://hashrocket.com/blog/posts/exploring-the-default-postgres-template-databases
